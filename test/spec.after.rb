@@ -4,13 +4,13 @@ require_rel './after'
 
 describe After do
 
-  def go
-     pid = Process.spawn "ruby ./sleep_1.rb"
+  def go how_many = 1
+     pid = Process.spawn "ruby ./sleep.rb #{how_many}"
   end
 
   it "should be able to grab the right pid" do
      pid = go
-     a = After.find_pids('sleep_1')
+     a = After.find_pids('sleep')
      a[0].should == pid
   end
 
@@ -22,12 +22,18 @@ describe After do
   it "should wait for another process to terminate" do
     go
     start = Time.now
-    After.find_and_wait_for('sleep_1')
+    After.find_and_wait_for('sleep')
     assert (Time.now - start) > 0.5 
   end
 
   it "should work if there are several available" do
-    pending
+    go 1
+    go 2
+    go 3
+    start = Time.now
+    After.find_and_wait_for('sleep')
+    assert (Time.now - start) > 2     
+
   end
 
 end
