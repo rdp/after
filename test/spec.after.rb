@@ -1,6 +1,6 @@
 require 'spec/autorun'
-require 'sane'
-require_rel './after'
+require 'sane' # require_rel
+require_rel '../lib/after'
 
 describe After do
 
