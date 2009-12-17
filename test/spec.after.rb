@@ -23,7 +23,7 @@ describe After do
     go
     start = Time.now
     After.find_and_wait_for('sleep_1')
-    assert (Time.now - start) < 0.5 
+    assert (Time.now - start) > 0.5 
   end
 
   it "should work if there are several available" do
