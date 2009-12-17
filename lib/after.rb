@@ -9,9 +9,12 @@ class After
 
     procs = WMI::Win32_Process.find(:all)
     pids = []
-    for proc in procs
-      if proc.CommandLine.andand.contain? many_args
+    for proc in procs # TODO respect proc.Name!
+      if proc.CommandLine.andand.contain?(many_args)
         pids << proc.ProcessId.to_i
+        if $VERBOSE
+         print 'adding ', proc.ProcessId, ' ', proc.Name, ' ', proc.CommandLine, "\n"
+        end
       end
     end
     pids
