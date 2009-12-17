@@ -1,0 +1,11 @@
+#!/usr/bin/ruby
+
+if ['-h', '--help'].in?(ARGV) || ARGV.length == 0
+  puts 'syntax: "command string to match" then some other command to run with its args'
+  exit
+end
+
+require 'after'
+
+After.find_and_wait_for(ARGV.pop)
+system(ARGV)
