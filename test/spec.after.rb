@@ -35,6 +35,9 @@ describe After do
     assert (Time.now - start) > 2     
   end
 
-  it "should split the commands up right--if necessary"
+  it "should split the commands up right and across name, too"
+
+  it "should optionally just list"
+  it "should respect name"
 
 end
