@@ -33,7 +33,8 @@ describe After do
     start = Time.now
     After.find_and_wait_for('sleep')
     assert (Time.now - start) > 2     
-
   end
+
+  it "should split the commands up right--if necessary"
 
 end
