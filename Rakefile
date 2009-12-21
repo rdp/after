@@ -11,6 +11,5 @@ require 'jeweler'
     gemspec.add_development_dependency 'jeweler'
     gemspec.add_development_dependency 'rspec'
     gemspec.add_dependency 'ruby-wmi'
-    gemspec.add_dependency 'win32-process' # TODO not on linux
     gemspec.add_dependency 'wait_pid'
   end

@@ -1,7 +1,7 @@
-require 'ruby-wmi'
+require 'ruby-wmi' # wow not even pretended linux compat. yet
 require 'sane'
 require 'andand'
-require 'win32/process' # waitpid for doze
+require 'wait_pid'
 
 class After
 
@@ -22,7 +22,7 @@ class After
 
   def self.find_and_wait_for(args)
    pids = find_pids args
-   pids.each{|pid| Process.waitpid pid}
+   pids.each{|pid| WaitPid.wait_nonchild_pid pid }
   end
 
 end

@@ -6,6 +6,8 @@ describe After do
 
   def go how_many = 1
      pid = Process.spawn "ruby ./sleep.rb #{how_many}"
+     Thread.new { Process.wait pid } # wait for it, so we can collect child processes, too
+     pid
   end
 
   it "should be able to grab the right pid" do
