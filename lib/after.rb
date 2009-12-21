@@ -17,7 +17,7 @@ class After
         end
       end
     end
-    pids
+    pids.reject{|pid| pid == Process.pid} # don't want ours...
   end
 
   def self.find_and_wait_for(args)

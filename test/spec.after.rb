@@ -1,5 +1,5 @@
 require 'spec/autorun'
-require 'sane' # require_rel
+require 'sane'
 require_rel '../lib/after'
 
 describe After do
@@ -39,5 +39,10 @@ describe After do
 
   it "should optionally just list"
   it "should respect name"
+
+  it "should not return the PID of this process" do
+    a = After.find_pids('ruby')
+    assert !Process.pid.in?(a)
+  end
 
 end
