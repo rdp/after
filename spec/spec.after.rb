@@ -39,7 +39,6 @@ describe After do
 
   it "should split the commands up right and across name, too"
 
-  it "should optionally just list"
   it "should respect name"
 
   it "should not return the PID of this process" do

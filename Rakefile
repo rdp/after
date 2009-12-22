@@ -7,7 +7,6 @@ require 'jeweler'
     gemspec.email = "rogerdpack@gmail.com"
     gemspec.authors = ["rogerdpack"]
     gemspec.add_dependency 'sane'
-    gemspec.add_dependency 'andand'
     gemspec.add_development_dependency 'jeweler'
     gemspec.add_development_dependency 'rspec'
     gemspec.add_dependency 'ruby-wmi'

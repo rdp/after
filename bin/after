@@ -1,16 +1,25 @@
 #!/usr/bin/ruby
 
 if ['-h', '--help'].in?(ARGV) || ARGV.length == 0
-  puts 'syntax: [-v] "command string to match" then some other command to run with its args'
+  puts 'syntax: [-v] [-l or --list to only list] "command string to match" then some other command to run with its args'
   exit
 end
 
 require 'after'
+require 'andand' # to avoid warnings
 
 if ARGV[0] == '-v'
   ARGV.shift
   $VERBOSE = true
-  puts 'running in verbose mode'
+  puts 'running in verbose mode, my pid is ' + Process.pid.to_s
 end
+
+if ARGV[0] == '-l' || ARGV[0] == '--list'
+  $VERBOSE = true # so it'll output
+  ARGV.shift
+  After.find_pids(ARGV.shift)
+  exit
+end
+
 After.find_and_wait_for(ARGV.shift)
 system(ARGV)
