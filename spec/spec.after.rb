@@ -46,4 +46,8 @@ describe After do
     assert !Process.pid.in?(a)
   end
 
+  it "should run all args" do
+    go 0
+  end
+
 end
