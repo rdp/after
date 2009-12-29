@@ -9,6 +9,6 @@ require 'jeweler'
     gemspec.add_dependency 'sane'
     gemspec.add_development_dependency 'jeweler'
     gemspec.add_development_dependency 'rspec'
-    gemspec.add_dependency 'ruby-wmi'
+    gemspec.add_dependency 'rdp-ruby-wmi'
     gemspec.add_dependency 'wait_pid'
   end
