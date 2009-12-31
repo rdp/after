@@ -1,6 +1,6 @@
 #!/usr/bin/ruby
 
-if ['-h', '--help'].in?(ARGV) || ARGV.length == 0
+if ARGV.include?('-h') || ARGV.include?('--help') || ARGV.length == 0
   puts 'syntax: [-v] [-l or --list to only list] "command string to match" then some other command to run with its args'
   exit
 end
