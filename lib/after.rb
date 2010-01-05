@@ -23,7 +23,17 @@ class After
 
   def self.find_and_wait_for(args)
    pids = find_pids args
-   pids.each{|pid| WaitPid.wait_nonchild_pid pid }
+   if pids.length > 1
+     puts "found more than one -- waiting for all #{pids.inspect}"
+   end
+   pids.each{|pid| 
+     puts "waiting for #{pid}"
+     WaitPid.wait_nonchild_pid pid 
+   }
+  end
+  
+  def self.wait_pid pid
+    WaitPid.wait_nonchild_pid pid
   end
 
 end

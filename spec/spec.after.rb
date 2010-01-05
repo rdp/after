@@ -49,5 +49,10 @@ describe After do
   it "should run all args" do
     go 0
   end
+  
+  it "should allow for passing in a pid" do
+   pid = go 1
+   After.wait_pid pid 
+  end
 
 end
