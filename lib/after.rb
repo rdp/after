@@ -5,11 +5,12 @@ require 'wait_pid'
 class After
 
   def self.find_pids(many_args)
-
     procs = WMI::Win32_Process.find(:all)
+    #_dbg
     pids = []
     for proc in procs # TODO respect proc.Name!
       if proc.CommandLine && proc.CommandLine.contain?(many_args)
+      	#if (proc.CommandLine && proc.CommandLine.contain?(many_args)) || proc.Name.include?(many_args)
         pid = proc.ProcessId.to_i
         next if pid == Process.pid
         pids << pid

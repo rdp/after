@@ -37,10 +37,6 @@ describe After do
     assert (Time.now - start) > 2     
   end
 
-  it "should split the commands up right and across name, too"
-
-  it "should respect name"
-
   it "should not return the PID of this process" do
     a = After.find_pids('ruby')
     assert !Process.pid.in?(a)
@@ -49,5 +45,14 @@ describe After do
   it "should run all args" do
     go 0
   end
+  
+  it "should find .bat filenames" do
+     pid = Process.spawn "sleep_indirect.bat 1"
+     Thread.new { Process.wait pid } # wait for it, so we can collect child processes, too
+     a = After.find_pids('sleep.bat')
+     assert a.length == 1
+  end    	
+
+  it "should split the commands up right and across name, too"
 
 end
