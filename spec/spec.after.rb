@@ -42,21 +42,28 @@ describe After do
     assert !Process.pid.in?(a)
   end
 
-  it "should run all args" do
-    go 0
-  end
-  
   it "should allow for passing in a pid" do
    pid = go 1
    After.wait_pid pid 
   end
 
   it "should find .bat filenames" do
-     pid = Process.spawn "sleep_indirect.bat 1"
+    # unfortunately I don't know how to query for exact parameters, though...
+     pid = Process.spawn "cmd /c sleep.bat 1"
      Thread.new { Process.wait pid } # wait for it, so we can collect child processes, too
      a = After.find_pids('sleep.bat')
      assert a.length == 1
   end    	
+  
+  
+  it "should find .bat filenames when run by selves" do
+    # unfortunately I don't know how to query for exact parameters, though...
+     pid = Process.spawn "sleep.bat 1"
+     Thread.new { Process.wait pid } # wait for it, so we can collect child processes, too
+     a = After.find_pids('sleep.bat')
+     assert a.length == 1
+  end    	
+
 
   it "should split the commands up right and across name, too"
 
