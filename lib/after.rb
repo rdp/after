@@ -9,8 +9,7 @@ class After
     #_dbg
     pids = []
     for proc in procs # TODO respect proc.Name!
-      if proc.CommandLine && proc.CommandLine.contain?(many_args)
-      	#if (proc.CommandLine && proc.CommandLine.contain?(many_args)) || proc.Name.include?(many_args)
+      if (proc.CommandLine && proc.CommandLine.contain?(many_args)) || proc.Name.include?(many_args)
         pid = proc.ProcessId.to_i
         next if pid == Process.pid
         pids << pid

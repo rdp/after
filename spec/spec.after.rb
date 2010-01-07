@@ -52,7 +52,7 @@ describe After do
      pid = Process.spawn "cmd /c sleep.bat 1"
      Thread.new { Process.wait pid } # wait for it, so we can collect child processes, too
      a = After.find_pids('sleep.bat')
-     assert a.length == 1
+     assert a == [pid]
   end    	
   
   
@@ -61,9 +61,13 @@ describe After do
      pid = Process.spawn "sleep.bat 1"
      Thread.new { Process.wait pid } # wait for it, so we can collect child processes, too
      a = After.find_pids('sleep.bat')
-     assert a.length == 1
+     assert a == [pid]
   end    	
-
+  
+  it "should find exe names too" do
+     a = After.find_pids('csrss')   # only searchable via name of csrss.exe
+     assert a.length == 1  
+  end
 
   it "should split the commands up right and across name, too"
 
