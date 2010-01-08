@@ -13,7 +13,7 @@ describe After do
   it "should be able to grab the right pid" do
      pid = go
      a = After.find_pids('sleep')
-     a[0].should == pid
+     a[0][0].should == pid
   end
 
   it "should immediately return if the other process doesn't exist" do
@@ -39,12 +39,12 @@ describe After do
 
   it "should not return the PID of this process" do
     a = After.find_pids('ruby')
-    assert !Process.pid.in?(a)
+    assert !Process.pid.in?(a.map_by(:first))
   end
 
   it "should allow for passing in a pid" do
    pid = go 1
-   After.wait_pid pid 
+   After.wait_pid pid
   end
 
   it "should find .bat filenames" do
@@ -52,16 +52,19 @@ describe After do
      pid = Process.spawn "cmd /c sleep.bat 1"
      Thread.new { Process.wait pid } # wait for it, so we can collect child processes, too
      a = After.find_pids('sleep.bat')
-     assert a == [pid]
+     assert a[0][0] == pid && a.length == 1
   end    	
   
   
   it "should find .bat filenames when run by selves" do
-    # unfortunately I don't know how to query for exact parameters, though...
-     pid = Process.spawn "sleep.bat 1"
-     Thread.new { Process.wait pid } # wait for it, so we can collect child processes, too
-     a = After.find_pids('sleep.bat')
-     assert a == [pid]
+     pending "knowing how to do this in windows" do
+     
+      # unfortunately I don't know how to query for exact parameters, though...
+      pid = Process.spawn "sleep.bat 1"
+      Thread.new { Process.wait pid } # wait for it, so we can collect child processes, too
+      a = After.find_pids('sleep.bat')
+      assert a[0][0] == pid && a.length == 1
+    end
   end    	
   
   it "should find exe names too" do
@@ -70,5 +73,7 @@ describe After do
   end
 
   it "should split the commands up right and across name, too"
+  
+  
 
 end

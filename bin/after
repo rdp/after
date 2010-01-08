@@ -8,24 +8,4 @@ end
 require 'after'
 require 'andand' # to avoid warnings
 
-if ARGV[0] == '-v'
-  ARGV.shift
-  $VERBOSE = true
-  puts 'running in verbose mode'
-end
-
-if ARGV[0] == '-l' || ARGV[0] == '--list'
-  $VERBOSE = true # so it'll output the names...
-  ARGV.shift
-  After.find_pids(ARGV.shift)
-  exit # premature exit
-elsif ARGV[0] == '-p'
-  ARGV.shift
-  pid = ARGV.shift
-  After.wait_pid pid.to_i
-else
- After.find_and_wait_for(ARGV.shift)
-end
-
-puts 'running', ARGV if $VERBOSE
-system(*ARGV) if ARGV.length > 0
+After.go
