@@ -27,7 +27,7 @@ class After
       puts "found more than one -- waiting for all #{pids.map{|pid, name| name}.inspect}"
     end
     pids.each{|pid, name|
-      puts "waiting for #{name} (#{pid})"
+      puts "waiting for #{pid} (#{name})"
       WaitPid.wait_nonchild_pid pid
     }
   end
