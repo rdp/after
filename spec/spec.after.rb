@@ -71,9 +71,11 @@ describe After do
     end
   end
 
-  it "should find exe names too" do
+  if OS.windows?
+   it "should find exe names too" do
     a = After.find_pids('csrss')   # only searchable via name of csrss.exe
     assert a.length == 1
+   end
   end
 
   it "should split the commands up right and across name, too"
