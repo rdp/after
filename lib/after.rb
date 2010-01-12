@@ -1,24 +1,36 @@
-require 'ruby-wmi' # wow not even pretended linux compat. yet
+require 'os'
+if OS.windows?
+  require 'ruby-wmi' # wow not even pretended linux compat. yet
+end
 require 'sane'
 require 'wait_pid'
 
 class After
 
   def self.find_pids(many_args)
-    procs = WMI::Win32_Process.find(:all)
-    #_dbg
-    pids = []
-    for proc in procs # TODO respect proc.Name!
-      if (proc.CommandLine && proc.CommandLine.contain?(many_args)) || proc.Name.include?(many_args)
-        pid = proc.ProcessId.to_i
+
+    procs_by_pid = {}
+    if OS.windows?
+      procs = WMI::Win32_Process.find(:all)
+      for proc in procs
+        procs_by_pid[proc.ProcessId] = proc.CommandLine.to_s + proc.Name.to_s
+      end
+    else
+      a = `ps -ef`
+      a.lines.to_a[1..-1].each{|l| pid = l.split(/\s+/)[1]; procs_by_pid[pid.to_i] = l}
+    end
+
+    good_pids = []
+    for pid, description in procs_by_pid
+      if description.contain?(many_args)
         next if pid == Process.pid
-        pids << [pid, proc.CommandLine]
+        good_pids << [pid, description]
         if $VERBOSE
-          print 'adding ', proc.ProcessId, ' ', proc.Name, ' ', proc.CommandLine, "\n"
+         pps 'adding', pid, description
         end
       end
     end
-    pids
+    good_pids
   end
 
   def self.find_and_wait_for(args)
