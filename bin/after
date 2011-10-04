@@ -1,9 +1,12 @@
 #!/usr/bin/ruby
 
 if ARGV.include?('-h') || ARGV.include?('--help') || ARGV.length == 0
-  puts 'syntax: [-v] [-l or --list to only list] [-p pid] "command string to match" (then some other command to run with its args)'
-  puts 'ex: after ruby ls -l'
-  puts "after irb \"ls | grep l\""
+  puts 'syntax: [-q : quit mode (don\'t show output for when process ends)] [-l or --list : only list matches] [-p pid] "command string to match" (some other command to run with its args on completion)'
+  puts 'ex: after ruby ls -l # run ls -l after any ruby processes exit'
+  puts 'after -l # list all running processes'
+  puts "after irb \"ls | grep l\" # complex command to run after irb terminates"
+  puts "after -p 3704 ls # run ls after process with PID 3704 terminates"
+  puts "after -q -p 3704 ls # run ls after PID 3704 terminates, don't output anything except the output of ls"
   exit
 end
 

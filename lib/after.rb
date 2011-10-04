@@ -13,7 +13,7 @@ class After
     if OS.windows?
       procs = WMI::Win32_Process.find(:all)
       for proc in procs
-        procs_by_pid[proc.ProcessId] = proc.CommandLine.to_s + ' ' + proc.Name.to_s
+        procs_by_pid[proc.ProcessId] = ("% 20s" % proc.Name.to_s) + ' ' + proc.CommandLine.to_s
       end
     else
       a = `ps -ef` # my linux support isn't very good yet...
@@ -22,12 +22,11 @@ class After
 
     good_pids = []
     for pid, description in procs_by_pid
-      p many_args
       if description.contain?(many_args)
         next if pid == Process.pid
         good_pids << [pid, description]
-        if $VERBOSE
-         pps 'adding', pid, description
+        if $DISPLAY_ALL
+         pps 'found', "% 5d" % pid, description
         end
       end
     end
@@ -37,10 +36,10 @@ class After
   def self.find_and_wait_for(args)
     pids = find_pids args
     if pids.length > 1
-      puts "found more than one -- waiting for all #{pids.map{|pid, name| name}.inspect}"
+      puts "found more than one -- waiting for all -- #{pids.map{|pid, name| name}.inspect}" if $VERBOSE
     end
     pids.each{|pid, name|
-      puts "waiting for #{pid} (#{name})"
+      puts "waiting for #{pid} (#{name.strip})" if $VERBOSE
       WaitPid.wait_nonchild_pid pid
     }
   end
@@ -49,31 +48,39 @@ class After
     WaitPid.wait_nonchild_pid pid
   end
 
+
   # main, really
   def self.go
-    if ARGV.delete('-v')
+    if ARGV.delete('-q')
+      $VERBOSE = false
+    else
       $VERBOSE = true
-      puts 'running in verbose mode'
     end
 
-    if ARGV.delete('-l') || ARGV.delete('--list')
-      $VERBOSE = true # so it'll output the names...
+    $DISPLAY_ALL = false
+    if ARGV[0].in? ['-l', '--list']
+      ARGV.shift
+      $DISPLAY_ALL = true
       query = ARGV.shift || ''
       got = After.find_pids(query)
       if got.empty?
         puts "none found #{query}"
       end
-      exit # premature exit
+      exit # early exit
     elsif ARGV[0] == '-p'
       ARGV.shift
       pid = ARGV.shift
-      puts "waiting for pid #{pid}"
-      After.wait_pid pid.to_i
+      puts "waiting for pid #{pid}" if $VERBOSE
+      begin
+        After.wait_pid pid.to_i
+      rescue Errno::EPERM
+        p 'pid does not exist maybe it already had exited ' + pid if $VERBOSE
+      end
     else
       After.find_and_wait_for(ARGV.shift)
     end
 
-    puts 'running', ARGV if $VERBOSE
+    puts 'after: now running:', ARGV if $VERBOSE
     system(*ARGV) if ARGV.length > 0
   end
 
