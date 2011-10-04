@@ -1,11 +1,12 @@
 #!/usr/bin/ruby
 
 if ARGV.include?('-h') || ARGV.include?('--help') || ARGV.length == 0
-  puts 'syntax: [-v] [-l or --list to only list] [-p pid] "command string to match" then some other command to run with its args'
+  puts 'syntax: [-v] [-l or --list to only list] [-p pid] "command string to match" (then some other command to run with its args)'
+  puts 'ex: after ruby ls -l'
+  puts "after irb \"ls | grep l\""
   exit
 end
 
 require 'after'
-require 'andand' # to avoid warnings
 
 After.go

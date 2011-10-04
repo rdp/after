@@ -2,7 +2,7 @@
 require 'jeweler'
   Jeweler::Tasks.new do |gemspec|
     gemspec.name = "after"
-    gemspec.summary = "Command to allow you to run a command in one console window, then run another in a separate window after the first completes"
+    gemspec.summary = "Command to allow you to wait for a command in \"some other terminal window\" to finish before this one is run"
     gemspec.description = gemspec.summary
     gemspec.email = "rogerdpack@gmail.com"
     gemspec.authors = ["rogerdpack"]

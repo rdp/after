@@ -13,15 +13,16 @@ class After
     if OS.windows?
       procs = WMI::Win32_Process.find(:all)
       for proc in procs
-        procs_by_pid[proc.ProcessId] = proc.CommandLine.to_s + proc.Name.to_s
+        procs_by_pid[proc.ProcessId] = proc.CommandLine.to_s + ' ' + proc.Name.to_s
       end
     else
-      a = `ps -ef`
+      a = `ps -ef` # my linux support isn't very good yet...
       a.lines.to_a[1..-1].each{|l| pid = l.split(/\s+/)[1]; procs_by_pid[pid.to_i] = l}
     end
 
     good_pids = []
     for pid, description in procs_by_pid
+      p many_args
       if description.contain?(many_args)
         next if pid == Process.pid
         good_pids << [pid, description]
@@ -50,20 +51,23 @@ class After
 
   # main, really
   def self.go
-    if ARGV[0] == '-v'
-      ARGV.shift
+    if ARGV.delete('-v')
       $VERBOSE = true
       puts 'running in verbose mode'
     end
 
-    if ARGV[0] == '-l' || ARGV[0] == '--list'
+    if ARGV.delete('-l') || ARGV.delete('--list')
       $VERBOSE = true # so it'll output the names...
-      ARGV.shift
-      After.find_pids(ARGV.shift)
+      query = ARGV.shift || ''
+      got = After.find_pids(query)
+      if got.empty?
+        puts "none found #{query}"
+      end
       exit # premature exit
     elsif ARGV[0] == '-p'
       ARGV.shift
       pid = ARGV.shift
+      puts "waiting for pid #{pid}"
       After.wait_pid pid.to_i
     else
       After.find_and_wait_for(ARGV.shift)
