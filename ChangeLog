@@ -1,0 +1,4 @@
+0.8.0
+  make prettier output
+  make it so it can enumerate all processes: ($ after -l)
+  make -v mode (more chatty) by default, add option -q for those that want no output
