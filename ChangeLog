@@ -1,3 +1,6 @@
+0.8.2
+  make after -p 1234,4556 possible, cleanup help
+
 0.8.0
   make prettier output
   make it so it can enumerate all processes: ($ after -l)

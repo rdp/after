@@ -1,12 +1,22 @@
 #!/usr/bin/ruby
 
 if ARGV.include?('-h') || ARGV.include?('--help') || ARGV.length == 0
-  puts 'syntax: [-q : quit mode (don\'t show output for when process ends)] [-l or --list : only list matches] [-p pid] "command string to match" (some other command to run with its args on completion)'
-  puts 'ex: after ruby ls -l # run ls -l after any ruby processes exit'
-  puts 'after -l # list all running processes'
-  puts "after irb \"ls | grep l\" # complex command to run after irb terminates"
-  puts "after -p 3704 ls # run ls after process with PID 3704 terminates"
-  puts "after -q -p 3704 ls # run ls after PID 3704 terminates, don't output anything except the output of ls"
+  puts 'syntax: after [-q] [-l | --list] [-l or --list] [-p pid1 | pid1,pid2,pid3] "command string to match" command to run with args'
+  puts '  -q : quiet mode (don\'t show output for when process ends)'
+  puts '  --list : only list matches, don\'t actually wait for them'
+  puts "  \"command string to match\" like ruby.exe or irb : match all processes by name and arguments"
+  puts "  command to run with args: some other command to run on completion, like ls -l, no quotes needed."
+  puts
+  puts 'Examples:'
+  puts
+  puts 'after ruby ls -l          # run ls -l after all ruby processes exit'
+  puts 'after ruby "ls -l"        # same'   
+  puts 'after -l                  # list all running processes'
+  puts 'after -l ruby             # list all running processes that have ruby in their executable name or arguments'
+  puts "after irb \"ls | grep l\"   # complex command to run after irb terminates (runs $ ls | grep l)"
+  puts "after -p 3704 ls          # run ls after process with PID 3704 terminates"
+  puts "after -q -p 3704 ls       # run ls after PID 3704 terminates, don't output anything except the output of ls"
+  puts "after -p 3704,4804 ls     # run ls after PIDS 3704, 4804 both terminate"
   exit
 end
 

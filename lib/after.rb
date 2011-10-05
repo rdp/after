@@ -69,12 +69,16 @@ class After
       exit # early exit
     elsif ARGV[0] == '-p'
       ARGV.shift
-      pid = ARGV.shift
-      puts "waiting for pid #{pid}" if $VERBOSE
-      begin
-        After.wait_pid pid.to_i
-      rescue Errno::EPERM
-        p 'pid does not exist maybe it already had exited ' + pid if $VERBOSE
+      pids = ARGV.shift
+      pids = pids.split(',')
+      puts "waiting for pids #{pids.join(',')}" if $VERBOSE and pids.length > 1
+      for pid in pids.split(',')
+        puts "waiting for pid #{pid}" if $VERBOSE
+        begin
+          After.wait_pid pid.to_i
+        rescue Errno::EPERM
+          p 'pid does not exist maybe it already had exited ' + pid if $VERBOSE
+        end
       end
     else
       After.find_and_wait_for(ARGV.shift)
