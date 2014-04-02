@@ -2,7 +2,7 @@
 
 if ARGV.include?('-h') || ARGV.include?('--help') || ARGV.length == 0
   puts 'after: the command to run things after an external process terminates'
-  puts 'syntax: after [-q] [-l | --list] ([-p (pid1 | pid1,pid2,pid3)] | "command string to match") command to run after it and its args'
+  puts 'syntax: after [-q] [-l | --list | -ls] ([-p (pid1 | pid1,pid2,pid3)] | "command string to match") command to run after it and its args'
   puts '  -q : quiet mode (don\'t show output for when process ends)'
   puts '  --list : only list matches, don\'t actually wait for them'
   puts "  \"command string to match\" like ruby.exe or irb : match all processes by name and arguments"
@@ -14,7 +14,8 @@ if ARGV.include?('-h') || ARGV.include?('--help') || ARGV.length == 0
   puts 'after ruby "ls -l"        # same'   
   puts 'after -l                  # list all running processes'
   puts 'after -l ruby             # list all running processes that have ruby in their executable name or arguments'
-  puts "after irb \"ls | grep l\"   # complex command to run after irb terminates (runs $ ls | grep l)"
+  puts 'after -ls ruby            # same as above'
+  puts "after irb \"ls | grep l\" # complex command to run after irb terminates (runs $ ls | grep l)"
   puts "after -p 3704 ls          # run ls after process with PID 3704 terminates"
   puts "after -q -p 3704 ls       # run ls after PID 3704 terminates, don't output anything except the output of ls"
   puts "after -p 3704,4804 ls     # run ls after PIDS 3704, 4804 both terminate"

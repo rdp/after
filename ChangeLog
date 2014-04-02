@@ -1,3 +1,6 @@
+0.8.4
+  add -ls as an alias for -l
+  
 0.8.3
   fix -p functionality
   

@@ -59,7 +59,7 @@ class After
 
     $DISPLAY_ALL = false
     # TODO real command line parsing, yikes for this stuff!
-    if ARGV[0].in? ['-l', '--list']
+    if ARGV[0].in? ['-l', '--list', '-ls']
       ARGV.shift
       $DISPLAY_ALL = true
       query = ARGV.shift || ''
