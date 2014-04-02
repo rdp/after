@@ -1,0 +1,24 @@
+"after" is a rubygem/command line executable that allows you to basically
+
+"run program 1 in a console"
+"run program 2 in a different console, after program 1 terminates"
+
+so you can basically line up your ducks of run this then run that (with guaranteed order).  
+Works in linux and windows.  Especially useful in windows where you can't just type in your next command
+while the first is still running.
+
+
+Changelog:
+
+0.8.3
+  fix -p functionality (specify pid)
+  
+0.8.2
+  make after -p 1234,4556 possible, cleanup help (pid functionality)
+
+To use (install ruby then):
+$ gem install after
+$ after --help
+
+
+See the file bin/after for list of command line options.
