@@ -1,3 +1,6 @@
+0.8.3
+  fix -p functionality
+  
 0.8.2
   make after -p 1234,4556 possible, cleanup help
 

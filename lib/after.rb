@@ -58,6 +58,7 @@ class After
     end
 
     $DISPLAY_ALL = false
+    # TODO real command line parsing, yikes for this stuff!
     if ARGV[0].in? ['-l', '--list']
       ARGV.shift
       $DISPLAY_ALL = true
@@ -70,14 +71,14 @@ class After
     elsif ARGV[0] == '-p'
       ARGV.shift
       pids = ARGV.shift
-      pids = pids.split(',')
+      pids = pids.split(',')      
       puts "waiting for pids #{pids.join(',')}" if $VERBOSE and pids.length > 1
-      for pid in pids.split(',')
+      for pid in pids
         puts "waiting for pid #{pid}" if $VERBOSE
         begin
           After.wait_pid pid.to_i
         rescue Errno::EPERM
-          p 'pid does not exist maybe it already had exited ' + pid if $VERBOSE
+          p 'pid does not exist maybe it already has exited ' + pid if $VERBOSE
         end
       end
     else

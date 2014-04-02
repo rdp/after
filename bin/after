@@ -1,7 +1,8 @@
 #!/usr/bin/ruby
 
 if ARGV.include?('-h') || ARGV.include?('--help') || ARGV.length == 0
-  puts 'syntax: after [-q] [-l | --list] [-l or --list] [-p pid1 | pid1,pid2,pid3] "command string to match" command to run with args'
+  puts 'after: the command to run things after an external process terminates'
+  puts 'syntax: after [-q] [-l | --list] ([-p (pid1 | pid1,pid2,pid3)] | "command string to match") command to run after it and its args'
   puts '  -q : quiet mode (don\'t show output for when process ends)'
   puts '  --list : only list matches, don\'t actually wait for them'
   puts "  \"command string to match\" like ruby.exe or irb : match all processes by name and arguments"
