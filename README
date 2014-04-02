@@ -5,7 +5,8 @@
 
 so you can basically line up your ducks of run this then run that (with guaranteed order).  
 Works in linux and windows.  Especially useful in windows where you can't just type in your next command
-while the first is still running.  Sometimes also useful in linux.
+while the first is still running.  Sometimes also useful in linux (since by default you can't wait on a pid 
+that's not from a current child process).  See https://github.com/rdp/wait_pid for details.
 
 To use (install ruby then):
 $ gem install after
