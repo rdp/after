@@ -13,3 +13,5 @@ $ gem install after
 $ after --help
 
 See the included file bin/after for list of options.
+
+license: MIT
